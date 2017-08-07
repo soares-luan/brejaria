@@ -3,13 +3,16 @@ let cheerio = require('cheerio')
 let fs = require('fs')
 let co = require('co')
 
+let obj,arquivo
 
-let buscaLink = function(x){
+let buscaLink = function(index,variante,padraoLink,classeLink){
 	return co(function* (){
-		let res = yield req.get('https://www.clubedomalte.com.br/complexas?pagina='+x)
+		let url = padraoLink.replace('variante',variante).replace('indice',index)
+		console.log('Buscando URL',url)
+		let res = yield req.get(url)
 		
 		const $ = cheerio.load(res)
-		let itens = $('body .spots-interna .spot')
+		let itens = $(classeLink)
 		let links = []
 
 		itens.each((i,item)=>{
@@ -19,42 +22,55 @@ let buscaLink = function(x){
 	})
 }
 
-let batch = function(index){
+let batch = function(obj){
 	return co(function* (){
-		console.log('buscando' +index)
-		let resLinks = yield [buscaLink(index+1),buscaLink(index+2),buscaLink(index+3),buscaLink(index+4),buscaLink(index+5)]
+		let {padraoLink,variantes,classeLink} = obj
+		
 		let links = []
-		while(resLinks.length > 0){
-			links.push(...resLinks.shift())
-		}
+		while(variantes.length > 0){
+			let hasData = true
+			let i = 1
+			variante = variantes.shift()
+			while(hasData){
+				let retorno = yield buscaLink(i,variante,padraoLink,classeLink)
 
-
-		if(links.length > 0){
-			trataResultado(links)
-			batch(index + 5)
-		}else{
-			console.log('Fim')
+				if(retorno.length > 0){
+					links.push(...retorno)
+					i++
+				}else{
+					hasData = false
+				}
+			}
 		}
-		
-		
+		console.log('Fim batch',links.length)
+
+		return links
+
 	})
 }
 
 
-let trataResultado = function(arr){
-	
-	let sites = JSON.parse(fs.readFileSync('./brejas.json'))
+let trataResultado = function(arr,arquivo,sites){
 	
 	while(arr.length > 0){
 		let link = arr.shift()
-		if(sites['https://www.clubedomalte.com.br'].cervejas.indexOf(link) == -1)
-		sites['https://www.clubedomalte.com.br'].cervejas.push(link)
+		if(sites.cervejas.indexOf(link) == -1)
+		sites.cervejas.push(link)
 	}
-
-	fs.writeFileSync('brejas.json',JSON.stringify(sites))
-
+	fs.writeFileSync(arquivo,JSON.stringify(sites))
 }
 
-let sites = JSON.parse(fs.readFileSync('./brejas.json'))
+let inicia = function(site){
 
-console.log(sites['https://www.clubedomalte.com.br'].cervejas.length)
+	arquivo = `./site_${site}.json`
+	const obj_original = JSON.parse(fs.readFileSync(arquivo))
+	let objCopia = JSON.parse(JSON.stringify(obj_original));
+
+	batch(objCopia).then(res=>{
+		trataResultado(res,arquivo,obj_original)
+	}).catch(e=>{
+		console.log(e)
+	})
+
+}
+inicia('cervejastore')
