@@ -16,7 +16,9 @@ let buscaLink = function(index,variante,padraoLink,classeLink){
 		let links = []
 
 		itens.each((i,item)=>{
-			links.push($(item).find('a').attr('href'))
+			let link = $(item).find('a').attr('href')
+			if(link)
+			links.push(link)
 		})
 		return links
 	})
@@ -33,9 +35,21 @@ let batch = function(obj){
 			variante = variantes.shift()
 			while(hasData){
 				let retorno = yield buscaLink(i,variante,padraoLink,classeLink)
+				let dadoNovo = false
+				if(retorno.length == 0){
+					hasData = false
+					continue
+				}
 
-				if(retorno.length > 0){
-					links.push(...retorno)
+				while(retorno.length > 0){
+					let link = retorno.shift()
+					if(links.indexOf(link) == -1){
+						dadoNovo = true
+						links.push(link)
+					}
+				}
+
+				if(dadoNovo){
 					i++
 				}else{
 					hasData = false
@@ -73,4 +87,4 @@ let inicia = function(site){
 	})
 
 }
-inicia('cervejastore')
+inicia('emporio')
