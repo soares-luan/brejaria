@@ -1,0 +1,155 @@
+a {
+	text-decoration: none !important;
+	color:#F89406;
+	transition: all 0.3s ease-in-out 0s;
+	-moz-transition: all 0.3s ease-in-out 0s;
+	-webkit-transition: all 0.3s ease-in-out 0s;
+	-o-transition: all 0.3s ease-in-out 0s;
+	-ms-transition: all 0.3s ease-in-out 0s;
+}
+
+a:focus, a:hover {
+	text-decoration: none !important;
+}
+
+body {
+	font-family: 'Abel', sans-serif;
+}
+
+header {
+	background-color: #4183D7;
+}
+
+.logo img {
+	height: auto;
+	max-width: 100px;
+	margin: 15px 0px;
+}
+
+.titulo {
+	font-family: 'Handlee', cursive;
+	color: #ffffff;
+	margin-top: 5px;
+}
+
+.titulo h3 {
+	font-size: 3.125em;
+}
+
+.corpo_busca h3 {
+	font-size: 2.188em;
+	margin: 30px 0px;
+}
+.busca_cerveja .input-group {
+	margin: 0 auto;
+}
+.busca_cerveja .input-group input {
+	min-height: 75px;
+	font-size: 1.563em;
+}
+.busca_cerveja button {
+	min-height: 75px;
+	font-size: 25px;
+}
+.btn-breja {
+	background: #2ECC71;
+	color: #fff !important;
+	border-radius: 5px;
+	box-shadow: -6px 0 #208C4E;
+	outline: none !important;
+}
+.btn-breja:hover {
+	box-shadow: -4px 0 #208C4E;
+	left: -2px;
+}
+.btn-breja:active {
+	box-shadow: 0 0 #208C4E;
+	left: -6px;
+}
+
+.btn {
+	outline: none !important;
+}
+.btn-breja-comprar {
+	background: #2ECC71;
+	color: #fff !important;
+
+}
+.btn-breja-comprar:hover {
+	background: #208C4E;
+}
+.btn-breja-comprar:active {
+	position: relative;
+	top: 2px;
+}
+
+.form-control:focus {
+	border-color: #208C4E;
+	box-shadow: none;
+}
+
+.mais h3 {
+	font-size: 35px;
+	padding: 10px 0px;
+	margin: 50px 0px 30px;
+	border-bottom: 1px solid #4183D7;
+}
+.mais i {
+	color: #F5D76E;
+}
+
+.amostra {
+	margin-bottom: 45px;
+	border:1px solid transparent;
+	padding: 15px;
+}
+.amostra:hover {
+	border:1px solid #b7b7b7;
+}
+.amostra img {
+	margin: 0 auto;
+}
+.nome_cerveja {
+
+}
+
+.loja {
+
+}
+
+.preco {
+	color: #F64747;
+}
+#carregando {
+	display: none;
+}
+footer {
+	background-color: #4183D7;
+	color: #ffffff;
+	padding: 20px 0px 0px;
+	margin: 25px 0px 0px;
+	font-size: 1.250em;
+}
+footer p a {
+	color: #F89406;
+	
+}
+footer p a:hover {
+	color: #3a3a3c;
+	text-decoration: none !important;
+}
+
+/* LOADING */
+
+/* MEDIA QUERIE */
+@media only screen and (max-width: 500px) {
+	.amostra {
+		margin-bottom: 45px;
+		padding-bottom: 45px;
+		border-bottom: 2px dotted #cecece;
+	}
+	.busca_cerveja button {
+		font-size: 20px;
+	}
+	/*end*/
+}
