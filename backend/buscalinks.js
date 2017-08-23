@@ -1,7 +1,8 @@
+process.env.MONGODB = "mongodb://localhost:27017/estudBr"
 let req = require('request-promise')
 let cheerio = require('cheerio')
-let fs = require('fs')
 let co = require('co')
+const db = require('mongoco')
 
 let obj,arquivo
 
@@ -64,27 +65,45 @@ let batch = function(obj){
 }
 
 
-let trataResultado = function(arr,arquivo,sites){
-	
-	while(arr.length > 0){
-		let link = arr.shift()
-		if(sites.cervejas.indexOf(link) == -1)
-		sites.cervejas.push(link)
-	}
-	fs.writeFileSync(arquivo,JSON.stringify(sites))
+let trataResultado = function(arr,site){
+	return co(function* (){
+		let novos = 0
+		while(arr.length > 0){
+			let link = arr.shift()
+			if(site.links.indexOf(link) == -1){
+				novos++
+				site.links.push(link)
+			}
+			
+		}
+		let res = yield db.findOneAndUpdate('cervejarias',site._id,{$set:{links:site.links}})
+		console.log('Quantidade Adicionados',novos)
+		return novos
+	})
 }
 
-let inicia = function(site){
+let inicia = function(nomeSite){
+	return co(function* (){
+		console.log('Buscando Site',nomeSite)
+		
+		let site = yield db.findOne('cervejarias',{site:nomeSite}).catch(e=>{
+			console.log(e)
+		})
+		console.log('Dados Encontrados',site._id)
 
-	arquivo = `./site_${site}.json`
-	const obj_original = JSON.parse(fs.readFileSync(arquivo))
-	let objCopia = JSON.parse(JSON.stringify(obj_original));
-
-	batch(objCopia).then(res=>{
-		trataResultado(res,arquivo,obj_original)
-	}).catch(e=>{
-		console.log(e)
+		batch(site).then(res=>{
+			trataResultado(res,site)
+		})
+		.then(res=>{
+			console.log(res)
+			"FIM"
+		})
+		.catch(e=>{
+			console.log(e)
+		})
 	})
 
 }
-inicia('emporio')
+
+module.exports = inicia
+//inicia('emporio')

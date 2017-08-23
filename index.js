@@ -11,7 +11,7 @@ function insert(obj){
     })
     console.log(doc) */
 
-    let doc = yield db.insert('cervejaria',obj)
+    let doc = yield db.insert('cervejarias',obj)
 
     console.log(doc)
 })
