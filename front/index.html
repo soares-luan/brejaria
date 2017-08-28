@@ -1,4 +1,5 @@
 <html lang="pt-br">
+
 <head>
 	<title>Cerveja Barata - Comparador de Preços</title>
 	<meta charset="utf-8">
@@ -11,6 +12,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Handlee' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
 </head>
+
 <body>
 	<header>
 		<div class="container">
@@ -27,7 +29,7 @@
 	</header>
 	<!-- busca -->
 	<div class="container" id='app'>
-		
+
 		<div class="row">
 			<div class="col-sm-12 text-center corpo_busca">
 				<h3>Informe a cerveja na qual está procurando!</h3>
@@ -50,40 +52,11 @@
 				<h3><i class="fa fa-trophy"></i> Cervejas Mais Buscadas!</h3>
 			</div>
 			<div class="row text-center">
-			<div class="col-lg-12">
-				<todo-item
-					v-for="cerveja in cervejas"
-					v-bind:cerveja="cerveja"
-					v-bind:key="cerveja._id">
-				</todo-item>
-					<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 amostra">
-						<img src="https://recursos.clubedomalte.com.br/Imagem/Produto/460/231736/brooklyn-k-is-for-kriek-64883.jpg?v=20170822_10" title="Cerveja Capa Preta Melon Collie Ipa 500ml" alt="Cerveja Capa Preta Melon Collie Ipa 500ml">
-						<h1 class="nome_cerveja">Cerveja Capa Preta Melon Collie Ipa 500ml</h1>
-						<h4 class="loja">Empório Veredas</h4>
-						<h1 class="preco">R$ 17,99</h1>
-						<a href="#" class="btn btn-lg btn-breja-comprar" title="Descrição da breja"><i class="fa fa-shopping-cart"></i> Quero essa!</a>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 amostra">
-						<img src="https://recursos.clubedomalte.com.br/Imagem/Produto/460/231736/brooklyn-k-is-for-kriek-64883.jpg?v=20170822_10" title="Cerveja Capa Preta Melon Collie Ipa 500ml" alt="Cerveja Capa Preta Melon Collie Ipa 500ml">
-						<h1 class="nome_cerveja">Cerveja Capa Preta Melon Collie Ipa 500ml</h1>
-						<h4 class="loja">Empório Veredas</h4>
-						<h1 class="preco">R$ 17,99</h1>
-						<a href="#" class="btn btn-lg btn-breja-comprar" title="Descrição da breja"><i class="fa fa-shopping-cart"></i> Quero essa!</a>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 amostra">
-						<img src="https://recursos.clubedomalte.com.br/Imagem/Produto/460/231736/brooklyn-k-is-for-kriek-64883.jpg?v=20170822_10" title="Cerveja Capa Preta Melon Collie Ipa 500ml" alt="Cerveja Capa Preta Melon Collie Ipa 500ml">
-						<h1 class="nome_cerveja">Cerveja Capa Preta Melon Collie Ipa 500ml</h1>
-						<h4 class="loja">Empório Veredas</h4>
-						<h1 class="preco">R$ 17,99</h1>
-						<a href="#" class="btn btn-lg btn-breja-comprar" title="Descrição da breja"><i class="fa fa-shopping-cart"></i> Quero essa!</a>
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 amostra">
-						<img src="https://recursos.clubedomalte.com.br/Imagem/Produto/460/231736/brooklyn-k-is-for-kriek-64883.jpg?v=20170822_10" title="Cerveja Capa Preta Melon Collie Ipa 500ml" alt="Cerveja Capa Preta Melon Collie Ipa 500ml">
-						<h1 class="nome_cerveja">Cerveja Capa Preta Melon Collie Ipa 500ml</h1>
-						<h4 class="loja">Empório Veredas</h4>
-						<h1 class="preco">R$ 17,99</h1>
-						<a href="#" class="btn btn-lg btn-breja-comprar" title="Descrição da breja"><i class="fa fa-shopping-cart"></i> Quero essa!</a>
-					</div> -->
+				<div class="col-lg-12">
+					<todo-item v-for="cerveja in cervejas" v-bind:cerveja="cerveja" v-bind:key="cerveja._id">
+					</todo-item>
+
+
 				</div>
 			</div>
 		</div>
@@ -105,37 +78,76 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script>
-		
-
 		Vue.component('todo-item', {
 			props: ['cerveja'],
-			template:'<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 amostra">\
-					<img :src="cerveja.img" :title="cerveja.nome" :alt="cerveja.nome" class="img-responsive">\
-					<h1 class="nome_cerveja">{{cerveja.nome.split("-")[0].replace("Cerveja","")}}</h1>\
+			template: '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 amostra">\
+					<img :src="cerveja.img" :title="cerveja.nome" :alt="cerveja.nome" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 img-responsive">\
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 nome">\
+					<h1 class="nome_cerveja">{{cerveja.nome | trataNome }}</h1>\
 					<h4 class="loja">Empório Veredas</h4>\
-					<h1 class="preco">{{cerveja.preco}}</h1>\
-					<a :href="cerveja.link" class="btn btn-lg btn-breja-comprar" :title="cerveja.nome"><i class="fa fa-shopping-cart"></i> Quero essa!</a>\
+					</div>\
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 preco">\
+					<h1 class="preco">R<sup>$</sup>{{cerveja.preco}}</h1>\
+					<a :href="cerveja.link" target="_new" class="btn btn-lg btn-breja-comprar" :title="cerveja.nome"><i class="fa fa-shopping-cart"></i> Quero essa!</a>\
+					</div>\
 				</div>'
+		})
+		Vue.filter('trataNome',function(value){
+			//trato deixando trazer 3 palavras, se qualquer uma delas for maior que 11 letras, eu só retorno duas
+			let bruto = value.split("-")[0].replace("Cerveja","")
+			let filtro = bruto.split(' ').reduce((prev,curr)=>{
+				prev = prev.split(' ')
+				
+				if(prev.length < 3){
+					prev.push(curr.substr(0,6))
+				}
+				prev = prev.join(' ')
+				return prev.trim()
+
+			},'')
+
+			return filtro
 		})
 		var app = new Vue({
 			el: '#app',
+			created(){
+				this.paginacao();
+			},
 			data: {
-				cervejas:[] 
+				cervejas: [],
+				pagina:0,
+				limit:10
 			},
 			methods: {
 				buscaCerveja: function () {
 					let nome = document.getElementById('nome')
-					axios.get('http://127.0.0.1/'+nome.value).then(res=>{				
-						this.cervejas = res.data
-					}) 
-				 // this.message = this.message.split('').reverse().join('')
+					this.cervejas = []
+					this.pagina = 0
+					this.limit = 10
+					axios.get(`http://127.0.0.1/${nome.value}/${this.pagina}/${this.limit}`).then(res => {
+						this.cervejas.push(...res.data)
+					})
+				},
+				paginacao: function(){
+					let self = this
+					window.addEventListener("scroll", function(){
+						if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+							if(self.cervejas.length > 0){
+								let nome = document.getElementById('nome')
+								
+								self.pagina = self.pagina + self.limit
+								axios.get(`http://127.0.0.1/${nome.value}/${self.pagina}/${self.limit}`).then(res => {
+									self.cervejas.push(...res.data)
+								})
+							}
+						}
+					})
 				}
 			}
 		})
-		
 	</script>
 	<script type="text/javascript">
-		jQuery(document).ready(function($) {
+		jQuery(document).ready(function ($) {
 			$('.amostra img').addClass('img-responsive');
 			$('#buscar').on('click', function () {
 				/* $('#buscar').hide('fast');
@@ -145,4 +157,5 @@
 		}); /* end*/
 	</script>
 </body>
+
 </html>

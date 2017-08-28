@@ -102,21 +102,22 @@ header {
 	margin-bottom: 45px;
 	border:1px solid transparent;
 	padding: 15px;
+	min-height: 527;
 }
 .amostra:hover {
 	border:1px solid #b7b7b7;
 }
 .amostra img {
 	margin: 0 auto;
+	max-height: 253;
+	max-width: 253;
 }
-.nome_cerveja {
-
+.amostra > .nome{
+	min-height:137px
 }
-
-.loja {
-
+.amostra > .preco{
+	min-height:115px
 }
-
 .preco {
 	color: #F64747;
 }
@@ -126,9 +127,18 @@ header {
 footer {
 	background-color: #4183D7;
 	color: #ffffff;
-	padding: 20px 0px 0px;
+	/* padding: 20px 0px 0px; */
 	margin: 25px 0px 0px;
 	font-size: 1.250em;
+
+
+
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	height:30px;
+	width:100%;
+	
 }
 footer p a {
 	color: #F89406;

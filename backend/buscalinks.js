@@ -10,7 +10,10 @@ let buscaLink = function(index,variante,padraoLink,classeLink){
 	return co(function* (){
 		let url = padraoLink.replace('variante',variante).replace('indice',index)
 		console.log('Buscando URL',url)
-		let res = yield req.get(url)
+		let res = yield req.get(url).catch(e=>{
+			console.log(e.StatusCodeError)
+			return []
+		})
 		
 		const $ = cheerio.load(res)
 		let itens = $(classeLink)
@@ -76,7 +79,7 @@ let trataResultado = function(arr,site){
 			}
 			
 		}
-		let res = yield db.findOneAndUpdate('cervejarias',site._id,{$set:{links:site.links}})
+		let res = yield db.findOneAndUpdate('cervejarias',site._id,{$set:{links:site.links,novos:novos}})
 		console.log('Quantidade Adicionados',novos)
 		return novos
 	})

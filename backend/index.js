@@ -8,12 +8,15 @@ const co = require('co')
 
 app.use(cors())
 
-app.get('/:nome',(req,res,next)=>{
+app.get('/:nome/:offset/:limit',(req,res,next)=>{
     co(function* (){
-        if(req.params.nome.length < 3){
+        
+        let nome = req.params.nome,offset = req.params.offset,limit=req.params.limit
+        
+        if(nome.length < 3){
             res.send('Por favor digite mais')
         }
-        return yield Cerveja(req.params.nome)
+        return yield Cerveja(nome,offset,limit)
     }).then(cervejas=>{
         res.send(cervejas)
     })

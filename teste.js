@@ -1,3 +1,8 @@
-let detalhes = require('./backend/buscalinks.js')
+/* let links = require('./backend/buscalinks.js')
 
-detalhes('http://www.emporio.com')
+
+links('https://www.clubedomalte.com.br')
+
+ */
+let buscaDetalhes = require('./backend/buscaDetalhes.js')
+buscaDetalhes()
